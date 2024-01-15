@@ -40,15 +40,11 @@
   "cart": {
     "cartItems": [
       {
-        "productId": 4,
-        "quantity": 8
-      },
-      {
-        "productId": 5,
+        "productId": 3,
         "quantity": 1
       }
     ],
-    "totalPrice": 90.99,
-    "totalProduct": 9
+    "totalPrice": 20.99,
+    "totalProduct": 1
   }
 }

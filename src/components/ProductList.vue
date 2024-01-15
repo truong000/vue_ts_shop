@@ -1,61 +1,57 @@
 <script setup lang="ts">
-import useCommon from '@/core/hooks/useCommon'
 import { onMounted, ref } from 'vue'
 import Loading from '@/components/Loading/index.vue'
-import api from '@/services/axios.service'
-
-const { storeGetters, storeDispatch } = useCommon('useProductStore')
-const { getProducts } = storeGetters()
+import axios from 'axios'
+import { useCartStore } from '../stores/cart'
+interface Product {
+  id: number
+  title: string
+  price: number
+  quantity: number
+}
+const { addProductToCart } = useCartStore()
 const isLoading = ref(true)
-const products = ref([])
+const products = ref<Product[]>([])
 const callApiListProduct = async () => {
   try {
-    return await api.get(`http://localhost:3000/products`)
+    const response = await axios.get(`http://localhost:3000/products`)
+    return response.data as Product[]
   } catch (error) {
     console.log('error', error)
+    return []
   }
 }
 
-onMounted(() => {
-  callApiListProduct().then((response) => {
-    console.log('hihi', response)
-    isLoading.value = false
-    products.value = response?.data
-  })
+onMounted(async () => {
+  const data = await callApiListProduct()
+  if (Array.isArray(data)) {
+    products.value = data
+  }
+  isLoading.value = false
 })
-
-console.log('products', products)
 </script>
 
 <template>
   <Loading :is-loading="isLoading"></Loading>
-  <div v-if="products">123</div>
-
-  <!-- <input v-model="search" placeholder="Search products..." /> -->
-
-  <!-- <main>
-    <p v-if="loading">Loading post...</p>
-    <p v-if="error">{{ error.message }}</p>
-    <div v-if="products">
-      <div>
-        <ul style="display: inline-flex">
-          <div v-for="item of products" :key="item.id">
-            <div class="card">
-              <img src="../../../public/images/jeans3.jpg" alt="Denim Jeans" style="width: 100%" />
-              <h2>
-                <RouterLink :to="`/Product/${item.id}`">{{ item.title }}</RouterLink>
-              </h2>
-              <p class="price">{{ item.price }}</p>
-              <p>Some text about the jeans..</p>
-              <p>
-                <button @click="addProductToCart(item.id, item.price)">Add to Cart</button>
-              </p>
-            </div>
+  <div v-if="products">
+    <div>
+      <ul style="display: inline-flex">
+        <div v-for="item of products" :key="item.id">
+          <div class="card">
+            <img src="../assets//images/jeans3.jpg" alt="Denim Jeans" style="width: 100%" />
+            <h2>
+              <RouterLink :to="`/product/${item.id}`">{{ item.title }}</RouterLink>
+            </h2>
+            <p class="price">{{ item.price }}</p>
+            <p>Some text about the jeans..</p>
+            <p>
+              <button @click="addProductToCart(item.id, item.price)">Add to Cart</button>
+            </p>
           </div>
-        </ul>
-      </div>
+        </div>
+      </ul>
     </div>
-  </main> -->
+  </div>
 </template>
 
 <style>

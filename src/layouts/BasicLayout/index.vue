@@ -1,7 +1,11 @@
 <script setup lang="ts">
-/**
- * Layout: use for pages're logged
- */
+import useCommon from '@/core/hooks/useCommon'
+import { computed } from 'vue'
+
+const { storeGetters } = useCommon('useCartStore')
+const count = computed(() => {
+  return ({ countItem, cart } = storeGetters())
+})
 </script>
 
 <template>
@@ -14,7 +18,7 @@
 
         <nav>
           <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/about">Cart</RouterLink>
+          <RouterLink to="/cart">Cart {{ count }}</RouterLink>
         </nav>
       </div>
     </header>

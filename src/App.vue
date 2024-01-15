@@ -3,6 +3,7 @@ import { RouterView } from 'vue-router'
 import Loading from '@/components/Loading/index.vue'
 import { computed } from 'vue'
 import useCommon from './core/hooks/useCommon'
+import Layout from './layouts/BasicLayout/index.vue'
 
 /**
  * Page: Root page
@@ -16,6 +17,6 @@ const isLoading = computed(() => {
 </script>
 
 <template>
-  <RouterView />
+  <Layout />
   <Loading :is-loading="isLoading" />
 </template>

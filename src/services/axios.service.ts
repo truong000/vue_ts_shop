@@ -1,5 +1,6 @@
 import { ENV_CONFIG } from '@/core/constants/app'
 import axios, { type AxiosRequestConfig } from 'axios'
+import { EStatusCode } from '@/core/constants/enum'
 
 const instance = axios.create({
   baseURL: ENV_CONFIG.API_URL,
@@ -43,6 +44,10 @@ instance.interceptors.response.use(
     return response?.data
   },
   (error) => {
+    // const logError = error.response.code
+    // switch(logError){
+    //   case EStatusCode.BAD_REQUEST
+    // }
     return error
   }
 )

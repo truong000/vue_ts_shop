@@ -23,7 +23,7 @@ export type RootState = {
   error: any
 }
 
-export const useStoreShopping = defineStore({
+export const useCartStore = defineStore({
   id: 'store',
   state: () =>
     ({
@@ -36,31 +36,12 @@ export const useStoreShopping = defineStore({
       loading: false,
       error: null
     } as RootState),
-  actions: {
-    async fetchListProducts() {
-      this.products = []
-      this.loading = true
-      try {
-        const res = await axios.get(`http://localhost:3000/products`)
-        this.products = res.data
-      } catch (error) {
-        this.error = error
-      } finally {
-        this.loading = false
-      }
-    },
-    async fetchProductDetails(id: number) {
-      this.loading = true
-      try {
-        const res = await axios.get(`http://localhost:3000/products/${id}`)
-        return res.data
-      } catch (error) {
-        this.error = error
-      } finally {
-        this.loading = false
-      }
-    },
 
+  getters: {
+    countItem: (state) => state.cart?.cartItems.length
+  },
+
+  actions: {
     async fetchCartList() {
       const cart = await axios.get(`http://localhost:3000/cart`)
       this.cart = cart.data
