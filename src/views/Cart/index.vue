@@ -13,12 +13,7 @@ interface Cart {
   totalProduct: number
 }
 const carts = ref<Cart>({
-  cartItems: [
-    // {
-    //   productId: 0,
-    //   quantity: 0
-    // }
-  ],
+  cartItems: [],
   totalPrice: 0,
   totalProduct: 0
 })
@@ -33,26 +28,20 @@ const callApiCarts = async () => {
   }
 }
 
+const callApiProducts = async () => {
+  try {
+    return await api.get('http://localhost:3000/products')
+  } catch (error) {
+    console.log('error', error)
+    return []
+  }
+}
+
 onMounted(async () => {
   await callApiCarts().then((res) => {
-    console.log('res', res)
-
-    if (res.status === 200) {
-      carts.value = res?.data?.cartItems
-    } else {
-      messError.value = res.message
-    }
+    console.log('res123', res)
+    carts.value = res
   })
-
-  // if (data) {
-  //   carts.value = data
-  // } else {
-  //   carts.value = {
-  //     cartItems: [],
-  //     totalPrice: 0,
-  //     totalProduct: 0
-  //   }
-  // }
 })
 </script>
 
@@ -61,15 +50,19 @@ onMounted(async () => {
     <div class="container">
       <h4>
         Cart
-        <div v-if="carts">
-          <span class="price" style="color: black"
-            ><i class="fa fa-shopping-cart"></i><b>1212</b></span
-          >
-        </div>
+        <span class="price" style="color: black"
+          ><i class="fa fa-shopping-cart"></i> <b>{{ carts.cartItems.length }}</b></span
+        >
         <div>{{ messError }}</div>
       </h4>
-      <div>
-        <CartItem></CartItem>
+      <div v-if="carts">
+        <p v-for="item in carts.cartItems" :key="item.productId">
+          <a href="#">{{ item.productId }}</a> <span class="price">$15</span>
+        </p>
+        <hr />
+        <p>
+          Total <span class="price" style="color: black"><b>$30</b></span>
+        </p>
       </div>
     </div>
   </div>

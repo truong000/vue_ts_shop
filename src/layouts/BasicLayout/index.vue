@@ -4,7 +4,8 @@ import { computed } from 'vue'
 
 const { storeGetters } = useCommon('useCartStore')
 const count = computed(() => {
-  return ({ countItem, cart } = storeGetters())
+  const { countItem } = storeGetters()
+  return countItem.value
 })
 </script>
 
