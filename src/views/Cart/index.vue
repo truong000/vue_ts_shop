@@ -1,48 +1,46 @@
 <script setup lang="ts">
-import api from '@/services/axios.service'
-import { onMounted, ref } from 'vue'
+import DeleteModal from '@/components/ModalComfirm/DeleteModal.vue'
+import { useCartStore, useProductStore } from '@/stores'
+import { storeToRefs } from 'pinia'
+import { ref } from 'vue'
 
-interface CartItem {
-  productId: number
-  quantity: number
-}
-
-interface Cart {
-  cartItems: CartItem[]
-  totalPrice: number
-  totalProduct: number
-}
-const carts = ref<Cart>({
-  cartItems: [],
-  totalPrice: 0,
-  totalProduct: 0
-})
-
+const { fetchListProducts } = useProductStore()
+const { fetchCartList, removeItemCart, addProductToCart, updateItemInCart } = useCartStore()
 const messError = ref('')
-const callApiCarts = async () => {
-  try {
-    return await api.get('http://localhost:3000/cart')
-  } catch (error) {
-    console.log('error', error)
-    return []
-  }
+const isShow = ref(false)
+const productToRemove = ref(0)
+const { cart } = storeToRefs(useCartStore())
+const { products } = storeToRefs(useProductStore())
+
+fetchListProducts()
+fetchCartList()
+
+function getInfoProduct(id: number) {
+  const item = products.value.find((item) => item.id === id)
+  return item
 }
 
-const callApiProducts = async () => {
-  try {
-    return await api.get('http://localhost:3000/products')
-  } catch (error) {
-    console.log('error', error)
-    return []
+function calculateTotalPrice(productId: number, quantity: number) {
+  const product = getInfoProduct(productId)
+  if (product) {
+    return product.price * quantity
   }
+  return 0
 }
 
-onMounted(async () => {
-  await callApiCarts().then((res) => {
-    console.log('res123', res)
-    carts.value = res
-  })
-})
+function showModal(productId: number) {
+  console.log('id', productId)
+  productToRemove.value = productId
+  isShow.value = true
+}
+
+const removeProduct = () => {
+  if (productToRemove.value) {
+    console.log('product', productToRemove.value)
+    removeItemCart(productToRemove.value)
+    isShow.value = false
+  }
+}
 </script>
 
 <template>
@@ -51,20 +49,68 @@ onMounted(async () => {
       <h4>
         Cart
         <span class="price" style="color: black"
-          ><i class="fa fa-shopping-cart"></i> <b>{{ carts.cartItems.length }}</b></span
+          ><i class="fa fa-shopping-cart"></i> <b>{{ cart?.cartItems.length }}</b></span
         >
+      </h4>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>TotalPrice</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody v-if="cart">
+          <tr v-for="item in cart.cartItems" :key="item.productId">
+            <td>{{ getInfoProduct(item.productId)?.title }}</td>
+            <td>
+              {{ item.quantity }}
+            </td>
+            <td>${{ calculateTotalPrice(item.productId, item.quantity) }}</td>
+            <td>
+              <button
+                @click="showModal(item.productId)"
+                type="button"
+                data-toggle="modal"
+                data-target="#exampleModal"
+              >
+                Remove
+              </button>
+              <button
+                @click="
+                  addProductToCart(item.productId, getInfoProduct(item.productId)?.price ?? 0)
+                "
+              >
+                +
+              </button>
+              <button
+                v-if="item.quantity > 1"
+                @click="
+                  updateItemInCart(item.productId, getInfoProduct(item.productId)?.price ?? 0)
+                "
+              >
+                -
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <h4>
+        Total bill
+        <p>
+          <span class="price" style="color: black"
+            ><b>${{ cart?.totalPrice }}</b></span
+          >
+        </p>
         <div>{{ messError }}</div>
       </h4>
-      <div v-if="carts">
-        <p v-for="item in carts.cartItems" :key="item.productId">
-          <a href="#">{{ item.productId }}</a> <span class="price">$15</span>
-        </p>
-        <hr />
-        <p>
-          Total <span class="price" style="color: black"><b>$30</b></span>
-        </p>
-      </div>
     </div>
+    <DeleteModal
+      :productId="productToRemove"
+      :title="getInfoProduct(productToRemove)?.title"
+      @confirm="removeProduct()"
+    ></DeleteModal>
   </div>
 </template>
 
@@ -159,6 +205,11 @@ hr {
 }
 
 span.price {
+  float: right;
+  color: grey;
+}
+
+span.quantity {
   float: right;
   color: grey;
 }

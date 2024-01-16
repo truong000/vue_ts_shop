@@ -67,7 +67,6 @@ export const useCartStore = defineStore({
           this.addCartItem(productId)
           this.increaseCartTotalPrice(price)
           this.increaseCartTotalProduct(1)
-          console.log('carrt', this.cart)
           await axios
             .put('http://localhost:3000/cart', this.cart)
             .then((response) => console.log(response))
@@ -79,7 +78,28 @@ export const useCartStore = defineStore({
         this.loading = false
       }
     },
-    // Tính toán tổng số sản phẩm và tổng giá trong giỏ hàng
+
+    async updateItemInCart(productId: number, price: number) {
+      this.loading = true
+      try {
+        const cartItem = this.cart?.cartItems.find((cartItem) => cartItem.productId === productId)
+
+        if (cartItem) {
+          cartItem.quantity--
+          this.decreasePriceProduct(price)
+
+          await axios
+            .put('http://localhost:3000/cart', this.cart)
+            .then((response) => console.log(response))
+            .catch((error) => console.error(error))
+        }
+      } catch (error) {
+        this.error = error
+      } finally {
+        this.loading = false
+      }
+    },
+
     increaseCartTotalPrice(price: number) {
       if (this.cart) {
         this.cart.totalPrice += price
@@ -91,8 +111,48 @@ export const useCartStore = defineStore({
       }
     },
 
+    decreasePriceProduct(price: number) {
+      if (this.cart) {
+        this.cart.totalPrice -= price
+      }
+    },
+
     addCartItem(productId: number) {
       this.cart?.cartItems.push({ productId, quantity: 1 })
+    },
+
+    async removeItemCart(productId: number) {
+      const cartItemIndex = this.cart?.cartItems.findIndex((item) => item.productId === productId)
+
+      if (cartItemIndex !== -1 && cartItemIndex !== undefined) {
+        const cartItem = this.cart!.cartItems[cartItemIndex]
+        this.decreaseCartTotalPrice(cartItem)
+        console.log('cart123', this.cart)
+        this.decreaseCartTotalProduct(cartItem.quantity)
+        this.cart!.cartItems.splice(cartItemIndex, 1)
+        try {
+          await axios
+            .put('http://localhost:3000/cart', this.cart)
+            .then((response) => console.log('response', response))
+            .catch((error) => console.error(error))
+        } catch (error) {
+          this.error = []
+        }
+      }
+    },
+
+    async decreaseCartTotalPrice(cartItem: CartItem) {
+      const res = await axios.get(`http://localhost:3000/products`)
+      this.products = res.data
+      const product = this.products.find((x) => x.id === cartItem.productId)
+      if (product && this.cart) {
+        this.cart.totalPrice -= product.price * cartItem.quantity
+      }
+    },
+    decreaseCartTotalProduct(quantity: number) {
+      if (this.cart) {
+        this.cart.totalProduct -= quantity
+      }
     }
   }
 })

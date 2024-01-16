@@ -1,12 +1,8 @@
 <script setup lang="ts">
-import useCommon from '@/core/hooks/useCommon'
-import { computed } from 'vue'
+import { useCartStore } from '@/stores/cart'
+import { storeToRefs } from 'pinia'
 
-const { storeGetters } = useCommon('useCartStore')
-const count = computed(() => {
-  const { countItem } = storeGetters()
-  return countItem.value
-})
+const { cart } = storeToRefs(useCartStore())
 </script>
 
 <template>
@@ -19,7 +15,7 @@ const count = computed(() => {
 
         <nav>
           <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/cart">Cart {{ count }}</RouterLink>
+          <RouterLink to="/cart">Cart {{ cart?.cartItems.length }}</RouterLink>
         </nav>
       </div>
     </header>

@@ -3,68 +3,43 @@
     {
       "id": 1,
       "title": "Product 1",
-      "price": 50.5,
+      "price": 10,
       "quantity": 1
     },
     {
       "id": 2,
       "title": "Hat 2",
-      "price": 70.1,
+      "price": 20,
       "quantity": 1
     },
     {
       "id": 3,
       "title": "Shirt 3",
-      "price": 20.99,
+      "price": 30,
       "quantity": 1
     },
     {
       "id": 4,
       "title": "Dress 4",
-      "price": 10.11,
+      "price": 40,
       "quantity": 1
     },
     {
       "id": 5,
       "title": "Polo 5",
-      "price": 10.11,
+      "price": 50,
       "quantity": 1
     },
     {
       "id": 6,
       "title": "Demi 6",
-      "price": 10.11,
+      "price": 60,
       "quantity": 1
     }
   ],
   "cart": {
-    "cartItems": [
-      {
-        "productId": 2,
-        "quantity": 3
-      },
-      {
-        "productId": 3,
-        "quantity": 2
-      },
-      {
-        "productId": 4,
-        "quantity": 2
-      },
-      {
-        "productId": 5,
-        "quantity": 3
-      },
-      {
-        "productId": 6,
-        "quantity": 2
-      },
-      {
-        "productId": 1,
-        "quantity": 3
-      }
-    ],
-    "totalPrice": 474.55000000000007,
-    "totalProduct": 15
+    "cartItems": [],
+    "totalPrice": 30,
+    "totalProduct": 0
   }
 }
