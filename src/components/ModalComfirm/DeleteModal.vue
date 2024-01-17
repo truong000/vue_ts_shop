@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { watch } from 'vue'
 const emit = defineEmits(['close', 'confirm'])
 const props = defineProps({
   productId: Number,
@@ -7,21 +8,23 @@ const props = defineProps({
   isShow: Boolean
 })
 
-function confirmRemove() {
-  emit('confirm')
-}
+watch(
+  () => props.isShow,
+  (newVal) => {
+    if (!newVal) document.getElementsByClassName('modal-backdrop fade show')[0].className = ''
+  }
+)
 </script>
 
 <template>
   <!-- Modal -->
   <div
+    v-if="isShow"
     class="modal fade"
     id="exampleModal"
     tabindex="-1"
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
-    :style="isShow ? { display: 'block' } : { display: 'none' }"
-    v-if="isShow"
   >
     <div class="modal-dialog">
       <div class="modal-content">
@@ -33,7 +36,7 @@ function confirmRemove() {
         </div>
         <div class="modal-body">You must remove this product {{ props.title }} from your cart?</div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" @click="confirmRemove">DELETE</button>
+          <button type="button" class="btn btn-primary" @click="emit('confirm')">DELETE</button>
         </div>
       </div>
     </div>

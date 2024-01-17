@@ -15,7 +15,7 @@ const { cart } = storeToRefs(useCartStore())
 
         <nav>
           <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/cart">Cart {{ cart?.cartItems.length }}</RouterLink>
+          <RouterLink to="/cart">Cart {{ cart?.totalProduct }}</RouterLink>
         </nav>
       </div>
     </header>

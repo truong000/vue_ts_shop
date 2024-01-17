@@ -9,13 +9,13 @@
     {
       "id": 2,
       "title": "Hat 2",
-      "price": 20,
+      "price": 200,
       "quantity": 1
     },
     {
       "id": 3,
       "title": "Shirt 3",
-      "price": 30,
+      "price": 400,
       "quantity": 1
     },
     {
@@ -27,7 +27,7 @@
     {
       "id": 5,
       "title": "Polo 5",
-      "price": 50,
+      "price": 540,
       "quantity": 1
     },
     {
@@ -40,23 +40,31 @@
   "cart": {
     "cartItems": [
       {
+        "productId": 3,
+        "quantity": 3
+      },
+      {
+        "productId": 1,
+        "quantity": 5
+      },
+      {
         "productId": 2,
         "quantity": 5
       },
       {
-        "productId": 5,
-        "quantity": 1
-      },
-      {
         "productId": 4,
-        "quantity": 1
+        "quantity": 2
       },
       {
-        "productId": 3,
+        "productId": 5,
+        "quantity": 2
+      },
+      {
+        "productId": 6,
         "quantity": 2
       }
     ],
-    "totalPrice": 250,
-    "totalProduct": 14
+    "totalPrice": 540,
+    "totalProduct": 19
   }
 }
