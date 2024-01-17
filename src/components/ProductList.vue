@@ -15,8 +15,9 @@ const products = ref<Product[]>([])
 const itemSearch = ref('')
 const sortCriteria = ref('')
 
-const changeSort = (sriteria: string) => {
-  sortCriteria.value = sriteria
+const changeSort = (criteria: string) => {
+  // const select = e.target as HTMLSelectElement
+  sortCriteria.value = criteria
 }
 const sortedAndFilteredProducts = computed(() => {
   let result = filteredProducts.value

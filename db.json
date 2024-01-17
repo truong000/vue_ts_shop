@@ -40,15 +40,11 @@
   "cart": {
     "cartItems": [
       {
-        "productId": 1,
-        "quantity": 1
-      },
-      {
         "productId": 2,
-        "quantity": 1
+        "quantity": 5
       },
       {
-        "productId": 3,
+        "productId": 5,
         "quantity": 1
       },
       {
@@ -56,15 +52,11 @@
         "quantity": 1
       },
       {
-        "productId": 5,
-        "quantity": 1
-      },
-      {
-        "productId": 6,
-        "quantity": 1
+        "productId": 3,
+        "quantity": 2
       }
     ],
-    "totalPrice": 210,
-    "totalProduct": 6
+    "totalPrice": 250,
+    "totalProduct": 14
   }
 }

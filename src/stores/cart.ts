@@ -126,9 +126,10 @@ export const useCartStore = defineStore({
 
       if (cartItemIndex !== -1 && cartItemIndex !== undefined) {
         const cartItem = this.cart!.cartItems[cartItemIndex]
-        this.decreaseCartTotalPrice(cartItem)
+        console.log('cartItem', cartItem)
+        await this.decreaseCartTotalPrice(cartItem)
         console.log('cart123', this.cart)
-        this.decreaseCartTotalProduct(cartItem.quantity)
+        await this.decreaseCartTotalProduct(cartItem.quantity)
         this.cart!.cartItems.splice(cartItemIndex, 1)
         try {
           await axios
@@ -147,6 +148,7 @@ export const useCartStore = defineStore({
       const product = this.products.find((x) => x.id === cartItem.productId)
       if (product && this.cart) {
         this.cart.totalPrice -= product.price * cartItem.quantity
+        console.log('totalPrice', this.cart)
       }
     },
     decreaseCartTotalProduct(quantity: number) {

@@ -3,7 +3,8 @@ const emit = defineEmits(['close', 'confirm'])
 const props = defineProps({
   productId: Number,
   title: String,
-  price: Number
+  price: Number,
+  isShow: Boolean
 })
 
 function confirmRemove() {
@@ -19,6 +20,8 @@ function confirmRemove() {
     tabindex="-1"
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
+    :style="isShow ? { display: 'block' } : { display: 'none' }"
+    v-if="isShow"
   >
     <div class="modal-dialog">
       <div class="modal-content">

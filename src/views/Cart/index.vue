@@ -107,6 +107,7 @@ const removeProduct = () => {
       </h4>
     </div>
     <DeleteModal
+      :isShow="isShow"
       :productId="productToRemove"
       :title="getInfoProduct(productToRemove)?.title"
       @confirm="removeProduct()"
