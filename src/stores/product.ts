@@ -22,7 +22,15 @@ export const useProductStore = defineStore({
       error: null
     } as RootState),
   getters: {
-    getProducts: (state) => state.products
+    getProducts: (state) => state.products,
+
+    filterProducts: (state) => {
+      return (title: string) => {
+        if (!title) return state.products
+        title = title.toLowerCase()
+        return state.products.filter((product) => product.title.toLowerCase().includes(title))
+      }
+    }
   },
   actions: {
     async fetchListProducts() {
@@ -47,12 +55,6 @@ export const useProductStore = defineStore({
       } finally {
         this.loading = false
       }
-    },
-
-    searchProductList(title: string) {
-      const product = this.products.filter((item) => item.title === title)
-      console.log('getProduct', product)
-      this.products = product
     }
   }
 })

@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
 import Loading from '@/components/Loading/index.vue'
 import { computed } from 'vue'
 import useCommon from './core/hooks/useCommon'
-import Layout from './layouts/BasicLayout/index.vue'
-
+// import Layout from './layouts/BasicLayout/index.vue'
+import AuthLayout from './layouts/AuthenticationLayout/index.vue'
 /**
  * Page: Root page
  */
@@ -17,6 +16,7 @@ const isLoading = computed(() => {
 </script>
 
 <template>
-  <Layout />
+  <!-- <Layout /> -->
+  <AuthLayout />
   <Loading :is-loading="isLoading" />
 </template>
