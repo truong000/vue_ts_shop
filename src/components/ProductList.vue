@@ -13,6 +13,22 @@ const { addProductToCart } = useCartStore()
 const isLoading = ref(true)
 const products = ref<Product[]>([])
 const itemSearch = ref('')
+const sortCriteria = ref('')
+
+const changeSort = (sriteria: string) => {
+  sortCriteria.value = sriteria
+}
+const sortedAndFilteredProducts = computed(() => {
+  let result = filteredProducts.value
+
+  if (sortCriteria.value === 'price-asc') {
+    result = result.slice().sort((a, b) => a.price - b.price)
+  } else if (sortCriteria.value === 'price-desc') {
+    result = result.slice().sort((a, b) => b.price - a.price)
+  }
+
+  return result
+})
 const callApiListProduct = async () => {
   try {
     const response = await axios.get(`http://localhost:3000/products`)
@@ -44,12 +60,18 @@ onMounted(async () => {
   <div class="form-group mx-sm-3 mb-2">
     <input type="text" class="form-control" placeholder="Search" v-model="itemSearch" />
   </div>
-
+  <div>
+    <select @change="changeSort($event.target.value)">
+      <option value="">Select sort</option>
+      <option value="price-asc">Price: Low to High</option>
+      <option value="price-desc">Price: High to Low</option>
+    </select>
+  </div>
   <Loading :is-loading="isLoading"></Loading>
   <div v-if="!isLoading">
     <div>
       <ul style="display: inline-flex">
-        <div v-for="item of filteredProducts" :key="item.id">
+        <div v-for="item of sortedAndFilteredProducts" :key="item.id">
           <div class="card">
             <img src="../assets//images/jeans3.jpg" alt="Denim Jeans" style="width: 100%" />
             <h2>
