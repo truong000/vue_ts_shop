@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import Loading from '@/components/Loading/index.vue'
 import axios from 'axios'
 import { useCartStore } from '../stores/cart'
@@ -12,6 +12,7 @@ interface Product {
 const { addProductToCart } = useCartStore()
 const isLoading = ref(true)
 const products = ref<Product[]>([])
+const itemSearch = ref('')
 const callApiListProduct = async () => {
   try {
     const response = await axios.get(`http://localhost:3000/products`)
@@ -21,6 +22,14 @@ const callApiListProduct = async () => {
     return []
   }
 }
+
+const filteredProducts = computed(() => {
+  if (!itemSearch.value) {
+    return products.value
+  }
+  const searchLower = itemSearch.value.toLowerCase()
+  return products.value.filter((product) => product.title.toLowerCase().includes(searchLower))
+})
 
 onMounted(async () => {
   const data = await callApiListProduct()
@@ -32,11 +41,15 @@ onMounted(async () => {
 </script>
 
 <template>
+  <div class="form-group mx-sm-3 mb-2">
+    <input type="text" class="form-control" placeholder="Search" v-model="itemSearch" />
+  </div>
+
   <Loading :is-loading="isLoading"></Loading>
-  <div v-if="products">
+  <div v-if="!isLoading">
     <div>
       <ul style="display: inline-flex">
-        <div v-for="item of products" :key="item.id">
+        <div v-for="item of filteredProducts" :key="item.id">
           <div class="card">
             <img src="../assets//images/jeans3.jpg" alt="Denim Jeans" style="width: 100%" />
             <h2>

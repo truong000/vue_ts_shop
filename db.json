@@ -38,8 +38,33 @@
     }
   ],
   "cart": {
-    "cartItems": [],
-    "totalPrice": 30,
-    "totalProduct": 0
+    "cartItems": [
+      {
+        "productId": 1,
+        "quantity": 1
+      },
+      {
+        "productId": 2,
+        "quantity": 1
+      },
+      {
+        "productId": 3,
+        "quantity": 1
+      },
+      {
+        "productId": 4,
+        "quantity": 1
+      },
+      {
+        "productId": 5,
+        "quantity": 1
+      },
+      {
+        "productId": 6,
+        "quantity": 1
+      }
+    ],
+    "totalPrice": 210,
+    "totalProduct": 6
   }
 }

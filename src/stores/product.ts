@@ -47,6 +47,12 @@ export const useProductStore = defineStore({
       } finally {
         this.loading = false
       }
+    },
+
+    searchProductList(title: string) {
+      const product = this.products.filter((item) => item.title === title)
+      console.log('getProduct', product)
+      this.products = product
     }
   }
 })

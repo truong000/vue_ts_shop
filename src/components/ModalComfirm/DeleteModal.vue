@@ -30,7 +30,7 @@ function confirmRemove() {
         </div>
         <div class="modal-body">You must remove this product {{ props.title }} from your cart?</div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" @click="confirmRemove">Save changes</button>
+          <button type="button" class="btn btn-primary" @click="confirmRemove">DELETE</button>
         </div>
       </div>
     </div>
