@@ -66,5 +66,13 @@
     ],
     "totalPrice": 540,
     "totalProduct": 19
-  }
+  },
+
+  "users": [
+    {
+      "name": "",
+      "email": "",
+      "password": ""
+    }
+  ]
 }

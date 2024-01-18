@@ -1,19 +1,24 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import LoginForm from '@/components/FormAuth/Login.vue'
+import RegisterForm from '@/components/FormAuth/Register.vue'
+import { ref } from 'vue'
+
+const isResigter = ref(true)
+</script>
 
 <template>
-  <div class="root">
-    <h2>Create an Account</h2>
-    <p>
-      <input type="text" placeholder="Email" />
-    </p>
-    <p>
-      <input type="password" placeholder="Password" />
-    </p>
-    <p>
-      <input type="password" placeholder="Confirm Password" />
-    </p>
-    <button>Submit</button>
-  </div>
+  <body>
+    <div class="main">
+      <h1>GeeksforGeeks</h1>
+      <h3>Enter your login credentials</h3>
+      <LoginForm v-if="!isResigter"></LoginForm>
+      <RegisterForm v-if="isResigter"></RegisterForm>
+      <p>
+        Not registered?
+        <a> Create an account </a>
+      </p>
+    </div>
+  </body>
 </template>
 
 <style>
