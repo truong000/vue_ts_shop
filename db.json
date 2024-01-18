@@ -67,12 +67,22 @@
     "totalPrice": 540,
     "totalProduct": 19
   },
-
   "users": [
     {
-      "name": "",
-      "email": "",
-      "password": ""
+      "0": {
+        "name": "truong",
+        "email": "truong@gmail.com",
+        "password": "123456"
+      },
+      "id": "fbf5"
+    },
+    {
+      "0": {
+        "name": "truong",
+        "email": "truong123@gmail.com",
+        "password": "123123"
+      },
+      "id": "f66d"
     }
   ]
 }

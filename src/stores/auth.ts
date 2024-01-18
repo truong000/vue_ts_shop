@@ -32,11 +32,12 @@ export const useUserStore = defineStore({
           this.users.push({ name, email, password })
           await axios
             .put('http://localhost:3000/users', this.users)
-            .then((response) => console.log(response))
+            .then((response) => console.log('uers', response))
             .catch((error) => console.error(error))
         }
       } catch (error) {
-        return
+        console.log('error121', error)
+        return (this.errorMessages = 'Server error')
       }
     }
   }

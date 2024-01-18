@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useUserStore } from '@/stores/auth'
 import { ref } from 'vue'
 
 const fullName = ref('')
@@ -9,11 +10,10 @@ const errorName = ref<string>('')
 const errorEmail = ref<string>('')
 const errorPassWord = ref<string>('')
 const errorConfirmPassWord = ref<string>('')
-const isSubmitting = ref(false)
-
+const { registerUser, errorMessages } = useUserStore()
 function validateName() {
   if (fullName.value.length === 0) {
-    errorName.value = 'This filed is required'
+    errorName.value = 'This filed is required.'
     return false
   }
   errorName.value = ''
@@ -22,6 +22,10 @@ function validateName() {
 
 //check validatation mail
 function validateEmail() {
+  if (email.value.length === 0) {
+    errorEmail.value = 'This filed is required.'
+    return false
+  }
   const emailFormat = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
   if (!emailFormat.test(email.value)) {
     errorEmail.value = 'Please enter a valid email address.'
@@ -33,7 +37,13 @@ function validateEmail() {
 }
 //check validatation password
 function validatePassword() {
-  if (password.value.length <= 0) {
+  if (password.value.length === 0) {
+    errorPassWord.value = 'This filed is required.'
+    return false
+  }
+  console.log('password', password)
+  if (password.value.length < 6) {
+    console.log('password123', password)
     errorPassWord.value = 'Password must be at least 6 characters long.'
     return false
   }
@@ -50,25 +60,18 @@ function validateConfirmPass() {
     errorConfirmPassWord.value = 'Confirm password must be the same'
     return false
   }
-  errorName.value = ''
+  errorConfirmPassWord.value = ''
   return true
 }
 
 function handleSubmit() {
-  isSubmitting.value = true
   const isNameValid = validateName()
   const isEmailValid = validateEmail()
   const isPasswordValid = validatePassword()
   const isConfirmPassVaild = validateConfirmPass()
-  console.log('SUBMIT123', { isNameValid, isEmailValid, isPasswordValid, isConfirmPassVaild })
-  if (!isNameValid || !isEmailValid || !isPasswordValid || !isConfirmPassVaild) {
-    console.log('SUBMIT', { email: email.value, password: password.value })
-    isSubmitting.value = false
-    return
+  if (isNameValid && isEmailValid && isPasswordValid && isConfirmPassVaild) {
+    registerUser(fullName.value, email.value, password.value)
   }
-
-  console.log('SUBMIT456', { email: email.value, password: password.value })
-  isSubmitting.value = false
 }
 </script>
 
@@ -89,7 +92,7 @@ function handleSubmit() {
       v-model="email"
       :class="{ 'is-invalid': errorEmail }"
     />
-    <p v-if="email" class="error-message">{{ errorEmail }}</p>
+    <p v-if="errorEmail" class="error-message">{{ errorEmail }}</p>
     <label for="password"> Password: </label>
     <input
       type="password"
@@ -108,7 +111,7 @@ function handleSubmit() {
     <p v-if="errorConfirmPassWord" class="error-message">{{ errorConfirmPassWord }}</p>
     <br />
     <div class="wrap">
-      <button type="submit" :disabled="isSubmitting">Submit</button>
+      <button type="submit">Submit</button>
     </div>
   </form>
 </template>
