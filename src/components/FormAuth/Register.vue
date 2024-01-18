@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { useUserStore } from '@/stores/auth'
-import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { ref, watch } from 'vue'
 
-const fullName = ref('')
+const fullName = ref<string>('')
 const email = ref('')
 const password = ref('')
 const confirmPassword = ref('')
@@ -10,7 +11,9 @@ const errorName = ref<string>('')
 const errorEmail = ref<string>('')
 const errorPassWord = ref<string>('')
 const errorConfirmPassWord = ref<string>('')
-const { registerUser, errorMessages } = useUserStore()
+const { registerUser } = useUserStore()
+const { errorMessages, registerSuccess } = storeToRefs(useUserStore())
+
 function validateName() {
   if (fullName.value.length === 0) {
     errorName.value = 'This filed is required.'
@@ -29,7 +32,6 @@ function validateEmail() {
   const emailFormat = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
   if (!emailFormat.test(email.value)) {
     errorEmail.value = 'Please enter a valid email address.'
-    console.log(errorEmail.value)
     return false
   }
   errorEmail.value = ''
@@ -41,9 +43,7 @@ function validatePassword() {
     errorPassWord.value = 'This filed is required.'
     return false
   }
-  console.log('password', password)
   if (password.value.length < 6) {
-    console.log('password123', password)
     errorPassWord.value = 'Password must be at least 6 characters long.'
     return false
   }
@@ -64,6 +64,31 @@ function validateConfirmPass() {
   return true
 }
 
+watch(fullName, (newFullName) => {
+  if (newFullName.length > 0) {
+    errorName.value = ''
+  }
+})
+
+watch(email, (newEmail) => {
+  if (newEmail.length > 0) {
+    errorEmail.value = ''
+    errorMessages.value = false
+  }
+})
+
+watch(password, (newPass) => {
+  if (newPass.length > 0) {
+    errorPassWord.value = ''
+  }
+})
+
+watch(confirmPassword, (newConfirm) => {
+  if (newConfirm.length > 0) {
+    errorConfirmPassWord.value = ''
+  }
+})
+
 function handleSubmit() {
   const isNameValid = validateName()
   const isEmailValid = validateEmail()
@@ -76,6 +101,9 @@ function handleSubmit() {
 </script>
 
 <template>
+  <div class="alert alert-danger" role="alert" v-if="errorMessages">
+    This email has been registered
+  </div>
   <form @submit.prevent="handleSubmit">
     <label for="text"> Full Name: </label>
     <input
@@ -83,14 +111,16 @@ function handleSubmit() {
       placeholder="Enter your Full Name"
       v-model="fullName"
       :class="{ 'is-invalid': errorName }"
+      :style="{ border: errorName ? '1px solid red' : '' }"
     />
-    <p v-if="errorPassWord" class="error-message">{{ errorName }}</p>
+    <p v-if="errorName" class="error-message">{{ errorName }}</p>
     <label for="email"> Email: </label>
     <input
       type="text"
       placeholder="Enter your Email"
       v-model="email"
       :class="{ 'is-invalid': errorEmail }"
+      :style="{ border: errorMessages ? '1px solid red' : '' }"
     />
     <p v-if="errorEmail" class="error-message">{{ errorEmail }}</p>
     <label for="password"> Password: </label>
@@ -99,6 +129,7 @@ function handleSubmit() {
       placeholder="Enter your Password"
       v-model="password"
       :class="{ 'is-invalid': errorPassWord }"
+      :style="{ border: errorPassWord ? '1px solid red' : '' }"
     />
     <p v-if="errorPassWord" class="error-message">{{ errorPassWord }}</p>
     <label for="password"> Confirm Password: </label>
@@ -107,6 +138,7 @@ function handleSubmit() {
       placeholder="Enter your Confirm Password"
       v-model="confirmPassword"
       :class="{ 'is-invalid': errorConfirmPassWord }"
+      :style="{ border: errorConfirmPassWord ? '1px solid red' : '' }"
     />
     <p v-if="errorConfirmPassWord" class="error-message">{{ errorConfirmPassWord }}</p>
     <br />
@@ -115,9 +147,3 @@ function handleSubmit() {
     </div>
   </form>
 </template>
-
-<style>
-.txtText {
-  margin-bottom: unset;
-}
-</style>

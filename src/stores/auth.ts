@@ -7,37 +7,62 @@ interface User {
   password: string
 }
 
+interface Accounts {
+  accountItem: User[]
+}
+
 export type RootState = {
-  users: User[]
-  errorMessages: string
+  accounts?: Accounts
+  errorMessages: boolean
+  registerSuccess: boolean
 }
 
 export const useUserStore = defineStore({
   id: 'users',
   state: () =>
     ({
-      users: [],
-      errorMessages: ''
+      accounts: {},
+      errorMessages: false,
+      registerSuccess: false
     } as RootState),
+  getters: {
+    getErrorMessages: (state) => state.errorMessages
+  },
 
   actions: {
-    async registerUser(name: string, email: string, password: string) {
+    async getUsers() {
       try {
-        const userCheck = this.users.find((item) => item.email === email)
+        await axios
+          .get('http://localhost:3000/users')
+          .then((response) => (this.accounts = response.data))
+      } catch (error) {
+        return
+      }
+    },
 
+    async registerUser(name: string, email: string, password: string) {
+      console.log('vao')
+      try {
+        const res = await axios.get('http://localhost:3000/users')
+        this.accounts = res.data
+        const userCheck = this.accounts?.accountItem.find((item) => item.email === email)
+        console.log('checkEmail', userCheck)
         if (userCheck) {
-          this.errorMessages = 'This email has been registered. Please choose another email'
-          return this.errorMessages
+          this.errorMessages = true
+          console.log('errorMessages', this.$state.errorMessages)
+          return this.$state.errorMessages
         } else {
-          this.users.push({ name, email, password })
+          this.accounts?.accountItem.push({ name, email, password })
+          console.log('registerUser', this.accounts)
           await axios
-            .put('http://localhost:3000/users', this.users)
-            .then((response) => console.log('uers', response))
+            .put('http://localhost:3000/users', this.accounts)
+            .then((response) => console.log(response))
             .catch((error) => console.error(error))
+          this.registerSuccess = true
+          return this.state.registerSuccess
         }
       } catch (error) {
-        console.log('error121', error)
-        return (this.errorMessages = 'Server error')
+        return error
       }
     }
   }

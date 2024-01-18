@@ -11,8 +11,8 @@ const isResigter = ref(true)
     <div class="main">
       <h1>GeeksforGeeks</h1>
       <h3>Enter your login credentials</h3>
-      <LoginForm v-if="!isResigter"></LoginForm>
-      <RegisterForm v-if="isResigter"></RegisterForm>
+      <LoginForm v-if="isResigter"></LoginForm>
+      <RegisterForm v-if="!isResigter"></RegisterForm>
       <p>
         Not registered?
         <a> Create an account </a>

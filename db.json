@@ -67,22 +67,23 @@
     "totalPrice": 540,
     "totalProduct": 19
   },
-  "users": [
-    {
-      "0": {
-        "name": "truong",
+  "users": {
+    "accountItem": [
+      {
+        "name": "Le Xuan Truong",
         "email": "truong@gmail.com",
-        "password": "123456"
-      },
-      "id": "fbf5"
-    },
-    {
-      "0": {
-        "name": "truong",
-        "email": "truong123@gmail.com",
         "password": "123123"
       },
-      "id": "f66d"
-    }
-  ]
+      {
+        "name": "tung",
+        "email": "tung123@gmail.com",
+        "password": "123123"
+      },
+      {
+        "name": "tung123",
+        "email": "tung1234@gmail.com",
+        "password": "123123"
+      }
+    ]
+  }
 }
