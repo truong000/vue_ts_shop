@@ -2,6 +2,7 @@
 import { useUserStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
 import { ref, watch } from 'vue'
+import RegisSuccessModal from '@/components/ModalComfirm/RegisSuccessModal.vue'
 
 const fullName = ref<string>('')
 const email = ref('')
@@ -13,6 +14,7 @@ const errorPassWord = ref<string>('')
 const errorConfirmPassWord = ref<string>('')
 const { registerUser } = useUserStore()
 const { errorMessages, registerSuccess } = storeToRefs(useUserStore())
+const success = registerSuccess.value
 
 function validateName() {
   if (fullName.value.length === 0) {
@@ -98,6 +100,9 @@ function handleSubmit() {
     registerUser(fullName.value, email.value, password.value)
   }
 }
+
+console.log('registerSuccess345', registerSuccess)
+console.log('success', success)
 </script>
 
 <template>
@@ -146,4 +151,5 @@ function handleSubmit() {
       <button type="submit">Submit</button>
     </div>
   </form>
+  <!-- <RegisSuccessModal :isShow="success" /> -->
 </template>

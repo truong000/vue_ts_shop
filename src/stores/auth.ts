@@ -26,7 +26,8 @@ export const useUserStore = defineStore({
       registerSuccess: false
     } as RootState),
   getters: {
-    getErrorMessages: (state) => state.errorMessages
+    getErrorMessages: (state) => state.errorMessages,
+    getRegisterSuccess: (state) => state.registerSuccess
   },
 
   actions: {
@@ -59,7 +60,8 @@ export const useUserStore = defineStore({
             .then((response) => console.log(response))
             .catch((error) => console.error(error))
           this.registerSuccess = true
-          return this.state.registerSuccess
+          console.log('registerSuccess11', this.registerSuccess)
+          return this.$state.registerSuccess
         }
       } catch (error) {
         return error
