@@ -1,21 +1,42 @@
-<script setup lang="ts">
-import LoginForm from '@/components/FormAuth/Login.vue'
-import RegisterForm from '@/components/FormAuth/Register.vue'
-import { useUserStore } from '@/stores/auth'
-import { storeToRefs } from 'pinia'
-import { ref } from 'vue'
+<script setup lang="ts">  
+import { ref, watch } from 'vue';  
+import LoginForm from '@/components/FormAuth/Login.vue';  
+import RegisterForm from '@/components/FormAuth/Register.vue';  
+import { useUserStore } from '@/stores/auth';  
+import { storeToRefs } from 'pinia';  
+import { toast } from "vue3-toastify";
+import 'vue3-toastify/dist/index.css'
+  
+const { registerSuccess, loginSuccess, loginFail} = storeToRefs(useUserStore());  
+const selectLogin = ref(true);  
+const selectRegister = ref(false);  
+  
+watch(registerSuccess, (newValue) => {  
+  if (newValue) {  
+    selectLogin.value = true;  
+    selectRegister.value = false;  
+    toast.success('Registration successful! Please log in.');  
+  }  
+});  
 
-const { registerSuccess } = storeToRefs(useUserStore())
-const selectLogin = ref(true)
-const selectRegister = ref(false)
+watch(loginSuccess, (newValue) => {  
+  if (newValue) {
+    toast.success('Login successful!');  
+  }  
+}); 
 
-function clickRegister() {
-  selectLogin.value = false
-  selectRegister.value = true
-}
+watch(loginFail, (newValue) => {  
+  if (newValue) {
+    toast.error('Login fail!');  
+  }  
+}); 
+  
+function clickRegister() {  
+  selectLogin.value = false;  
+  selectRegister.value = true;  
+}  
+</script>  
 
-console.log('registerSuccess', registerSuccess.value)
-</script>
 
 <template>
   <body>

@@ -168,6 +168,31 @@
         "name": "dat312312",
         "email": "da1212tqsas123123@gmail.com",
         "password": "123123"
+      },
+      {
+        "name": "tam",
+        "email": "tam@gmail.com",
+        "password": "123123"
+      },
+      {
+        "name": "hoa",
+        "email": "hoan@gmail.com",
+        "password": "123123"
+      },
+      {
+        "name": "hoa",
+        "email": "hoa123@gmail.com",
+        "password": "123123"
+      },
+      {
+        "name": "quang",
+        "email": "quang090@gmail.com",
+        "password": "123123"
+      },
+      {
+        "name": "hung",
+        "email": "hung@gmail.com",
+        "password": "123123"
       }
     ]
   }

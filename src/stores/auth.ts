@@ -15,6 +15,8 @@ export type RootState = {
   accounts?: Accounts
   errorMessages: boolean
   registerSuccess: boolean
+  loginSuccess: boolean
+  loginFail: boolean
 }
 
 export const useUserStore = defineStore({
@@ -23,7 +25,9 @@ export const useUserStore = defineStore({
     ({
       accounts: {},
       errorMessages: false,
-      registerSuccess: false
+      registerSuccess: false,
+      loginSuccess: false,
+      loginFail: false
     } as RootState),
   getters: {
     getErrorMessages: (state) => state.errorMessages,
@@ -40,7 +44,25 @@ export const useUserStore = defineStore({
         return
       }
     },
-
+    async loginUser(email: string, password: string) {  
+      try {  
+        await this.getUsers();  
+        console.log('accounts', this.accounts); 
+        const user = this.accounts?.accountItem.find((item) => item.email === email && item.password === password);  
+        console.log('user', user); 
+        if (user){
+          return this.loginSuccess = true
+        }
+        if (!user){
+          console.log('vao')
+          return this.loginFail = true
+        }
+      } catch (error) {  
+        console.error('Login failed with error:', error);  
+        this.loginSuccess = false;  
+        return this.loginSuccess; 
+      }  
+    },   
     async registerUser(name: string, email: string, password: string) {
       console.log('vao')
       try {
