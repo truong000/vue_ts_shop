@@ -40,32 +40,20 @@
   "cart": {
     "cartItems": [
       {
-        "productId": 3,
-        "quantity": 3
-      },
-      {
-        "productId": 1,
-        "quantity": 5
-      },
-      {
-        "productId": 2,
-        "quantity": 5
-      },
-      {
-        "productId": 4,
-        "quantity": 2
+        "productId": 6,
+        "quantity": 1
       },
       {
         "productId": 5,
         "quantity": 2
       },
       {
-        "productId": 6,
+        "productId": 4,
         "quantity": 2
       }
     ],
-    "totalPrice": 540,
-    "totalProduct": 19
+    "totalPrice": 1220,
+    "totalProduct": 5
   },
   "users": {
     "accountItem": [
@@ -192,6 +180,11 @@
       {
         "name": "hung",
         "email": "hung@gmail.com",
+        "password": "123123"
+      },
+      {
+        "name": "quang123",
+        "email": "quang909@gmail.com",
         "password": "123123"
       }
     ]

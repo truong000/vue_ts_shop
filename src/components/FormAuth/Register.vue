@@ -120,7 +120,7 @@ function handleSubmit() {
       placeholder="Enter your Email"
       v-model="email"
       :class="{ 'is-invalid': errorEmail }"
-      :style="{ border: errorEmail ? '1px solid red' : '' }"
+      :style="{ border: errorMessages ? '1px solid red' : '' }"
     />
     <p v-if="errorEmail" class="error-message">{{ errorEmail }}</p>
     <label for="password"> Password: </label>
@@ -145,5 +145,5 @@ function handleSubmit() {
     <div class="wrap">
       <button type="submit">Submit</button>
     </div>
-  </form> 
+  </form>
 </template>
