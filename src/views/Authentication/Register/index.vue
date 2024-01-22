@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import router from '@/router'
 import { useUserStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
 import { ref, watch } from 'vue'
+import { toast } from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
 
 const fullName = ref<string>('')
 const email = ref('')
@@ -12,7 +15,7 @@ const errorEmail = ref<string>('')
 const errorPassWord = ref<string>('')
 const errorConfirmPassWord = ref<string>('')
 const { registerUser } = useUserStore()
-const { errorMessages } = storeToRefs(useUserStore())
+const { errorMessages, registerSuccess } = storeToRefs(useUserStore())
 
 function validateName() {
   if (fullName.value.length === 0) {
@@ -98,52 +101,52 @@ function handleSubmit() {
     registerUser(fullName.value, email.value, password.value)
   }
 }
+
+watch(registerSuccess, (newValue) => {
+  if (newValue) {
+    toast.success('Register Success!')
+    router.push({name: 'login'})
+  }
+})
+
 </script>
 
 <template>
-  <div class="alert alert-danger" role="alert" v-if="errorMessages">
-    This email has been registered
-  </div>
-  <form @submit.prevent="handleSubmit">
-    <label for="text"> Full Name: </label>
-    <input
-      type="text"
-      placeholder="Enter your Full Name"
-      v-model="fullName"
-      :class="{ 'is-invalid': errorName }"
-      :style="{ border: errorName ? '1px solid red' : '' }"
-    />
-    <p v-if="errorName" class="error-message">{{ errorName }}</p>
-    <label for="email"> Email: </label>
-    <input
-      type="text"
-      placeholder="Enter your Email"
-      v-model="email"
-      :class="{ 'is-invalid': errorEmail }"
-      :style="{ border: errorMessages ? '1px solid red' : '' }"
-    />
-    <p v-if="errorEmail" class="error-message">{{ errorEmail }}</p>
-    <label for="password"> Password: </label>
-    <input
-      type="password"
-      placeholder="Enter your Password"
-      v-model="password"
-      :class="{ 'is-invalid': errorPassWord }"
-      :style="{ border: errorPassWord ? '1px solid red' : '' }"
-    />
-    <p v-if="errorPassWord" class="error-message">{{ errorPassWord }}</p>
-    <label for="password"> Confirm Password: </label>
-    <input
-      type="password"
-      placeholder="Enter your Confirm Password"
-      v-model="confirmPassword"
-      :class="{ 'is-invalid': errorConfirmPassWord }"
-      :style="{ border: errorConfirmPassWord ? '1px solid red' : '' }"
-    />
-    <p v-if="errorConfirmPassWord" class="error-message">{{ errorConfirmPassWord }}</p>
-    <br />
-    <div class="wrap">
-      <button type="submit">Submit</button>
+  <body>
+    <div class="main">
+      <h1>Shooping VUE_TS</h1>
+      <h3>Register Account Infomation</h3>
+      <div class="alert alert-danger" role="alert" v-if="errorMessages">
+        This email has been registered
+      </div>
+      <form @submit.prevent="handleSubmit">
+        <label for="text"> Full Name: </label>
+        <input type="text" placeholder="Enter your Full Name" v-model="fullName" :class="{ 'is-invalid': errorName }"
+          :style="{ border: errorName ? '1px solid red' : '' }" />
+        <p v-if="errorName" class="error-message">{{ errorName }}</p>
+        <label for="email"> Email: </label>
+        <input type="text" placeholder="Enter your Email" v-model="email" :class="{ 'is-invalid': errorEmail }"
+          :style="{ border: errorMessages ? '1px solid red' : '' }" />
+        <p v-if="errorEmail" class="error-message">{{ errorEmail }}</p>
+        <label for="password"> Password: </label>
+        <input type="password" placeholder="Enter your Password" v-model="password"
+          :class="{ 'is-invalid': errorPassWord }" :style="{ border: errorPassWord ? '1px solid red' : '' }" />
+        <p v-if="errorPassWord" class="error-message">{{ errorPassWord }}</p>
+        <label for="password"> Confirm Password: </label>
+        <input type="password" placeholder="Enter your Confirm Password" v-model="confirmPassword"
+          :class="{ 'is-invalid': errorConfirmPassWord }"
+          :style="{ border: errorConfirmPassWord ? '1px solid red' : '' }" />
+        <p v-if="errorConfirmPassWord" class="error-message">{{ errorConfirmPassWord }}</p>
+        <br />
+        <div class="wrap">
+          <button type="submit">Submit</button>
+        </div>
+      </form>
     </div>
-  </form>
+  </body>
 </template>
+
+
+<style>
+@import './styles.scss';
+</style>

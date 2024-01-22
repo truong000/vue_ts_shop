@@ -52,6 +52,7 @@ export const useUserStore = defineStore({
         )
         if (user) {
           setCookie('loginSuccess', (this.loginSuccess = true), { expires: 7 })
+          setCookie('userEmail', (email), { expires: 7 })
           return (this.loginSuccess = true)
         }
         if (!user) {
@@ -94,6 +95,7 @@ export const useUserStore = defineStore({
     },
     logOut() {
       removeCookie('loginSuccess')
+      removeCookie('userEmail')
       this.loginSuccess = false
       console.log('loginSuccess', this.loginSuccess)
     }

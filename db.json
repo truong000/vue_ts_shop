@@ -40,7 +40,7 @@
   "cart": {
     "cartItems": [],
     "totalPrice": 0,
-    "totalProduct": 3
+    "totalProduct": 7
   },
   "users": {
     "accountItem": [
@@ -182,6 +182,16 @@
       {
         "name": "truong",
         "email": "truongasd@gmail.com",
+        "password": "123123"
+      },
+      {
+        "name": "cuong",
+        "email": "cuong@gmail.com",
+        "password": "123123"
+      },
+      {
+        "name": "cuong pham",
+        "email": "phamcuong@gmail.com",
         "password": "123123"
       }
     ]

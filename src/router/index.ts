@@ -25,6 +25,11 @@ const routes = [
     name: 'login',
     component: () => import('@/views/Authentication/Login/index.vue'),
     meta: { guestOnly: true }
+  },
+  {
+    path: '/Register',
+    name: 'register',
+    component: ()=> import('@/views/Authentication/Register/index.vue')
   }
 ]
 

@@ -1,33 +1,6 @@
 <script setup lang="ts">
-// import { ref, watch } from 'vue'
-// import { storeToRefs } from 'pinia'
-// import { toast } from 'vue3-toastify'
-// import 'vue3-toastify/dist/index.css'
-// import { useUserStore } from '@/stores/auth'
 
-// const { registerSuccess, loginFail } = storeToRefs(useUserStore())
-// const selectLogin = ref(true)
-// const selectRegister = ref(false)
-
-// watch(registerSuccess, (newValue) => {
-//   if (newValue) {
-//     selectLogin.value = true
-//     selectRegister.value = false
-//     toast.success('Registration successful! Please log in.')
-//   }
-// })
-
-// watch(loginFail, (newValue) => {
-//   if (newValue) {
-//     toast.error('Login fail!')
-//   }
-// })
-
-// function clickRegister() {
-//   selectLogin.value = false
-//   selectRegister.value = true
-// }
-
+import router from '@/router'
 import { useUserStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
 import { ref, watch } from 'vue'
@@ -93,16 +66,24 @@ function handleSubmit() {
 watch(loginSuccess, (newValue) => {
   if (newValue) {
     toast.success('Login successful!')
+    router.push({name: 'home'})
   }
 })
+
+watch(loginFail, (newValue) => {
+  if (newValue) {
+    toast.error('Login failed!!')
+    // router.push({name: 'home'})
+  }
+})
+
 </script>
 
 <template>
   <body>
     <div class="main">
       <h1>GeeksforGeeks</h1>
-      <h3>Enter your login credentials</h3>
-      <!-- <LoginForm v-if="selectLogin"></LoginForm> -->
+      <h3>Enter your login credentials</h3>      
       <form @submit.prevent="handleSubmit">
         <label for="email"> Email: </label>
         <input
@@ -129,10 +110,10 @@ watch(loginSuccess, (newValue) => {
           <button type="submit" :disabled="isSubmitting">Submit</button>
         </div>
       </form>
-      <!-- <RegisterForm v-if="selectRegister"></RegisterForm> -->
       <p>
         Not registered?
-        <!-- <a @click="clickRegister()"> Create an account </a> -->
+        <RouterLink to="/Register">Create an account</RouterLink>
+        <a style="cursor: pointer;"> Create an account </a>
       </p>
     </div>
   </body>

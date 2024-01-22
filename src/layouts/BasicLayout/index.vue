@@ -1,12 +1,26 @@
 <script setup lang="ts">
+import router from '@/router'
 import { useUserStore } from '@/stores/auth'
 import { useCartStore } from '@/stores/cart'
 import { storeToRefs } from 'pinia'
 import { getCookie } from 'typescript-cookie'
+import { watch } from 'vue'
+import { toast } from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
 
 const { cart } = storeToRefs(useCartStore())
+const { loginSuccess } = storeToRefs(useUserStore())
 const { logOut } = useUserStore()
 const userEmail = getCookie('userEmail')
+
+watch(loginSuccess, (newValue) => {
+  if (!newValue) {
+    toast.success('Logout successful!')
+    router.push({name: 'login'})
+  }
+})
+
+
 </script>
 
 <template>
