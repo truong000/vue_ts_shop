@@ -51,8 +51,7 @@ export const useUserStore = defineStore({
           (item) => item.email === email && item.password === password
         )
         if (user) {
-          setCookie('userEmail', email, { expires: 7 })
-          setCookie('userName', user.name, { expires: 7 })
+          setCookie('loginSuccess', (this.loginSuccess = true), { expires: 7 })
           return (this.loginSuccess = true)
         }
         if (!user) {
@@ -86,12 +85,15 @@ export const useUserStore = defineStore({
       }
     },
     checkLoginStatus() {
-      const userEmail = getCookie('userEmail')
-      this.loginSuccess = userEmail != null
-      console.log('loginSuccess', this.loginSuccess)
+      const statusLogin = getCookie('loginSuccess')
+      if (statusLogin === 'true') {
+        this.loginSuccess = true
+      } else {
+        this.loginSuccess = false
+      }
     },
     logOut() {
-      removeCookie('userEmail'), removeCookie('userName')
+      removeCookie('loginSuccess')
       this.loginSuccess = false
       console.log('loginSuccess', this.loginSuccess)
     }

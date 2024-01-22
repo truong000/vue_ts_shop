@@ -19,7 +19,7 @@ const userEmail = getCookie('userEmail')
 
         <nav>
           <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/cart">Cart {{ cart?.totalProduct }}</RouterLink>
+          <RouterLink to="/Cart">Cart {{ cart?.totalProduct }}</RouterLink>
           <a class="icon-account" @click="logOut()">Account: {{ userEmail }}</a>
         </nav>
       </div>

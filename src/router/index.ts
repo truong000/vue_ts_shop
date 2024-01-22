@@ -3,22 +3,28 @@ import checkAuth from './auth'
 import Home from '@/views/Home/index.vue'
 import Cart from '@/views/Cart/index.vue'
 import ProductDetail from '@/views/ProductDetails/index.vue'
+import BasicLayout from '@/layouts/BasicLayout/index.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: Home
+    component: BasicLayout,
+    children: [
+      { path: '/', name: 'home', component: Home },
+      { path: '/Cart', name: 'cart', component: Cart },
+      {
+        path: 'product/:id',
+        name: 'product',
+        component: ProductDetail
+      }
+    ],
+    meta: { requiresAuth: true }
   },
   {
-    path: '/cart',
-    name: 'cart',
-    component: Cart
-  },
-  {
-    path: '/product/:id',
-    name: 'product',
-    component: ProductDetail
+    path: '/Login',
+    name: 'login',
+    component: () => import('@/views/Authentication/Login/index.vue'),
+    meta: { guestOnly: true }
   }
 ]
 

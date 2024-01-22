@@ -38,22 +38,9 @@
     }
   ],
   "cart": {
-    "cartItems": [
-      {
-        "productId": 6,
-        "quantity": 1
-      },
-      {
-        "productId": 5,
-        "quantity": 2
-      },
-      {
-        "productId": 4,
-        "quantity": 2
-      }
-    ],
-    "totalPrice": 1220,
-    "totalProduct": 5
+    "cartItems": [],
+    "totalPrice": 0,
+    "totalProduct": 3
   },
   "users": {
     "accountItem": [

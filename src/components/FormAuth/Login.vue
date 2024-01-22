@@ -61,7 +61,8 @@ function handleSubmit() {
 </script>
 
 <template>
-  <form @submit.prevent="handleSubmit">
+  <div></div>
+  <!-- <form @submit.prevent="handleSubmit">
     <label for="email"> Email: </label>
     <input
       type="text"
@@ -85,6 +86,6 @@ function handleSubmit() {
     </p>
     <div class="wrap">
       <button type="submit" :disabled="isSubmitting">Submit</button>
-    </div>
-  </form>
+    </div> -->
+  <!-- </form> -->
 </template>
