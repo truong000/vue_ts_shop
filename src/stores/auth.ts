@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { defineStore } from 'pinia'
-
+import { getCookie, removeCookie, setCookie } from 'typescript-cookie'
 interface User {
   name: string
   email: string
@@ -44,50 +44,56 @@ export const useUserStore = defineStore({
         return
       }
     },
-    async loginUser(email: string, password: string) {  
-      try {  
-        await this.getUsers();  
-        console.log('accounts', this.accounts); 
-        const user = this.accounts?.accountItem.find((item) => item.email === email && item.password === password);  
-        console.log('user', user); 
-        if (user){
-          return this.loginSuccess = true
+    async loginUser(email: string, password: string) {
+      try {
+        await this.getUsers()
+        const user = this.accounts?.accountItem.find(
+          (item) => item.email === email && item.password === password
+        )
+        if (user) {
+          setCookie('userEmail', email, { expires: 7 })
+          setCookie('userName', user.name, { expires: 7 })
+          return (this.loginSuccess = true)
         }
-        if (!user){
-          console.log('vao')
-          return this.loginFail = true
+        if (!user) {
+          return (this.loginFail = true)
         }
-      } catch (error) {  
-        console.error('Login failed with error:', error);  
-        this.loginSuccess = false;  
-        return this.loginSuccess; 
-      }  
-    },   
+      } catch (error) {
+        console.error('Login failed with error:', error)
+        this.loginSuccess = false
+        return this.loginSuccess
+      }
+    },
     async registerUser(name: string, email: string, password: string) {
-      console.log('vao')
       try {
         const res = await axios.get('http://localhost:3000/users')
         this.accounts = res.data
         const userCheck = this.accounts?.accountItem.find((item) => item.email === email)
-        console.log('checkEmail', userCheck)
         if (userCheck) {
           this.errorMessages = true
-          console.log('errorMessages', this.$state.errorMessages)
           return this.$state.errorMessages
         } else {
           this.accounts?.accountItem.push({ name, email, password })
-          console.log('registerUser', this.accounts)
           await axios
             .put('http://localhost:3000/users', this.accounts)
             .then((response) => console.log(response))
             .catch((error) => console.error(error))
           this.registerSuccess = true
-          console.log('registerSuccess11', this.registerSuccess)
           return this.$state.registerSuccess
         }
       } catch (error) {
         return error
       }
+    },
+    checkLoginStatus() {
+      const userEmail = getCookie('userEmail')
+      this.loginSuccess = userEmail != null
+      console.log('loginSuccess', this.loginSuccess)
+    },
+    logOut() {
+      removeCookie('userEmail'), removeCookie('userName')
+      this.loginSuccess = false
+      console.log('loginSuccess', this.loginSuccess)
     }
   }
 })

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Loading from '@/components/Loading/index.vue'
-import { computed, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import useCommon from './core/hooks/useCommon'
 import Layout from './layouts/BasicLayout/index.vue'
 import AuthLayout from './layouts/AuthenticationLayout/index.vue'
@@ -19,11 +19,16 @@ const isLoading = computed(() => {
 })
 
 const { loginSuccess } = storeToRefs(useUserStore())
-
+console.log('loginSuccess', loginSuccess.value)
 watch(loginSuccess, (newValue) => {
   if (newValue) {
     toast.success('Login successful!')
   }
+})
+
+onMounted(() => {
+  const userStore = useUserStore()
+  userStore.checkLoginStatus()
 })
 </script>
 
@@ -31,6 +36,5 @@ watch(loginSuccess, (newValue) => {
   <!-- <Layout /> -->
   <AuthLayout v-if="!loginSuccess" />
   <Layout v-if="loginSuccess" />
-  <!-- <RouterView v-if="loginSuccess" /> -->
   <Loading :is-loading="isLoading" />
 </template>

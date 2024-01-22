@@ -12,7 +12,7 @@ const errorEmail = ref<string>('')
 const errorPassWord = ref<string>('')
 const errorConfirmPassWord = ref<string>('')
 const { registerUser } = useUserStore()
-const { errorMessages, registerSuccess } = storeToRefs(useUserStore())
+const { errorMessages } = storeToRefs(useUserStore())
 
 function validateName() {
   if (fullName.value.length === 0) {

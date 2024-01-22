@@ -1,8 +1,12 @@
 <script setup lang="ts">
+import { useUserStore } from '@/stores/auth'
 import { useCartStore } from '@/stores/cart'
 import { storeToRefs } from 'pinia'
+import { getCookie } from 'typescript-cookie'
 
 const { cart } = storeToRefs(useCartStore())
+const { logOut } = useUserStore()
+const userEmail = getCookie('userEmail')
 </script>
 
 <template>
@@ -16,6 +20,7 @@ const { cart } = storeToRefs(useCartStore())
         <nav>
           <RouterLink to="/">Home</RouterLink>
           <RouterLink to="/cart">Cart {{ cart?.totalProduct }}</RouterLink>
+          <a class="icon-account" @click="logOut()">Account: {{ userEmail }}</a>
         </nav>
       </div>
     </header>
@@ -81,5 +86,8 @@ const { cart } = storeToRefs(useCartStore())
   .topnav input[type='text'] {
     border: 1px solid #ccc;
   }
+}
+.icon-account {
+  display: inline;
 }
 </style>

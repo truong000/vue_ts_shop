@@ -19,12 +19,6 @@ watch(registerSuccess, (newValue) => {
   }
 })
 
-// watch(loginSuccess, (newValue) => {
-//   if (newValue) {
-//     toast.success('Login successful!');
-//   }
-// });
-
 watch(loginFail, (newValue) => {
   if (newValue) {
     toast.error('Login fail!')
