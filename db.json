@@ -35,12 +35,41 @@
       "title": "Demi 6",
       "price": 60,
       "quantity": 1
+    },
+    {
+      "id": 7,
+      "title": "Shirt 3",
+      "price": 400,
+      "quantity": 1
+    },
+    {
+      "id": 8,
+      "title": "Dress 4",
+      "price": 40,
+      "quantity": 1
+    },
+    {
+      "id": 9,
+      "title": "Polo 5",
+      "price": 540,
+      "quantity": 1
+    },
+    {
+      "id": 10,
+      "title": "Demi 6",
+      "price": 60,
+      "quantity": 1
     }
   ],
   "cart": {
-    "cartItems": [],
-    "totalPrice": 0,
-    "totalProduct": 7
+    "cartItems": [
+      {
+        "productId": 6,
+        "quantity": 1
+      }
+    ],
+    "totalPrice": 60,
+    "totalProduct": 3
   },
   "users": {
     "accountItem": [
@@ -192,6 +221,21 @@
       {
         "name": "cuong pham",
         "email": "phamcuong@gmail.com",
+        "password": "123123"
+      },
+      {
+        "name": "sang le",
+        "email": "sang@gmail.com",
+        "password": "123123"
+      },
+      {
+        "name": "duc sang",
+        "email": "sang123@gmail.com",
+        "password": "123123"
+      },
+      {
+        "name": "minh hoa",
+        "email": "minhhoa@gmail.com",
         "password": "123123"
       }
     ]

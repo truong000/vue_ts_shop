@@ -63,37 +63,40 @@ const sortedAndFilteredProducts = computed(() => {
 </script>
 
 <template>
-  <div class="form-group mx-sm-3 mb-2">
-    <input type="text" class="form-control" placeholder="Search" v-model="itemSearch" />
+  <div class="search_sort">
+    <div class="form-group mx-sm-3 mb-2">
+      <input type="text" class="form-control" placeholder="Search" v-model="itemSearch" />
+    </div>
+    <div class="form-group">
+      <select class="form-control" id="exampleFormControlSelect1" v-model="selected">
+        <option v-for="option in options" :key="option.value" :value="option.value">
+          {{ option.text }}
+        </option>
+      </select>
+    </div>
   </div>
-  <select v-model="selected">
-    <option v-for="option in options" :key="option.value" :value="option.value">
-      {{ option.text }}
-    </option>
-  </select>
   <Loading :is-loading="isLoading"></Loading>
-  <div v-if="!isLoading">
-    <div>
-      <ul style="display: inline-flex">
-        <div v-for="item of sortedAndFilteredProducts" :key="item.id">
-          <div class="card">
-            <img src="../assets//images/jeans3.jpg" alt="Denim Jeans" style="width: 100%" />
-            <h2>
-              <RouterLink :to="`/product/${item.id}`">{{ item.title }}</RouterLink>
-            </h2>
-            <p class="price">{{ item.price }}</p>
-            <p>Some text about the jeans..</p>
-            <p>
-              <button @click="addProductToCart(item.id, item.price)">Add to Cart</button>
-            </p>
-          </div>
-        </div>
-      </ul>
+  <div v-if="!isLoading" class="list-container">
+    <div v-if="sortedAndFilteredProducts.length == 0">
+      <h1>Not found</h1>
+    </div>
+    <div v-for="item of sortedAndFilteredProducts" :key="item.id" class="card-container">
+      <div class="card">
+        <img src="../assets//images/jeans3.jpg" alt="Denim Jeans" style="width: 100%" />
+        <h2>
+          <RouterLink :to="`/product/${item.id}`">{{ item.title }}</RouterLink>
+        </h2>
+        <p class="price">{{ item.price }}</p>
+        <p>Some text about the jeans..</p>
+        <p>
+          <button @click="addProductToCart(item.id, item.price)">Add to Cart</button>
+        </p>
+      </div>
     </div>
   </div>
 </template>
 
-<style>
+<style scoped>
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   max-width: 300px;
@@ -169,5 +172,22 @@ nav {
   text-align: center;
   vertical-align: middle;
   white-space: nowrap;
+}
+
+.list-container {
+  display: flex; /* Sử dụng flexbox thay cho inline-flex */
+  flex-wrap: wrap; /* Permits card to wrap to next line */
+  justify-content: space-around; /* Cách đều các card xung quanh */
+}
+
+.card-container {
+  flex: 1; /* Các card sẽ cố gắng chiếm đầy không gian có sẵn */
+  min-width: 300px; /* Đảm bảo rằng card sẽ không thu nhỏ hơn một giá trị nhất định */
+}
+
+.search_sort {
+  display: flex;
+  justify-content: flex-end; /* Canh phải các thành phần tìm kiếm/sắp xếp */
+  margin-right: 1rem;
 }
 </style>

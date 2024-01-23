@@ -1,4 +1,3 @@
-import { useUserStore } from '@/stores/auth'
 import { getCookie } from 'typescript-cookie'
 import type { Router } from 'vue-router'
 

@@ -52,7 +52,7 @@ export const useUserStore = defineStore({
         )
         if (user) {
           setCookie('loginSuccess', (this.loginSuccess = true), { expires: 7 })
-          setCookie('userEmail', (email), { expires: 7 })
+          setCookie('userEmail', email, { expires: 7 })
           return (this.loginSuccess = true)
         }
         if (!user) {
@@ -79,6 +79,7 @@ export const useUserStore = defineStore({
             .then((response) => console.log(response))
             .catch((error) => console.error(error))
           this.registerSuccess = true
+          console.log('registerSuccess6789', this.registerSuccess)
           return this.$state.registerSuccess
         }
       } catch (error) {
@@ -97,7 +98,7 @@ export const useUserStore = defineStore({
       removeCookie('loginSuccess')
       removeCookie('userEmail')
       this.loginSuccess = false
-      console.log('loginSuccess', this.loginSuccess)
+      console.log('loginSuccess456', this.loginSuccess)
     }
   }
 })

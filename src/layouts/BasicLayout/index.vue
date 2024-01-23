@@ -14,30 +14,43 @@ const { logOut } = useUserStore()
 const userEmail = getCookie('userEmail')
 
 watch(loginSuccess, (newValue) => {
+  console.log('loginSuccess890', loginSuccess)
   if (!newValue) {
     toast.success('Logout successful!')
-    router.push({name: 'login'})
+    setTimeout(() => {
+      router.push({ name: 'login' })
+    }, 1000)
   }
 })
-
-
 </script>
 
 <template>
-  <div class="basic-layout">
-    <header>
-      <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-      <div class="wrapper">
-        <div>ShoppingCart</div>
-
-        <nav>
-          <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/Cart">Cart {{ cart?.totalProduct }}</RouterLink>
-          <a class="icon-account" @click="logOut()">Account: {{ userEmail }}</a>
-        </nav>
+  <nav class="navbar" style="background-color: antiquewhite">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="60" height="60" />
       </div>
-    </header>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <RouterLink to="/">Home</RouterLink>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <RouterLink to="/Cart"
+              ><span class="glyphicon glyphicon-shopping-cart"></span>Cart
+              {{ cart?.totalProduct }}</RouterLink
+            >
+          </li>
+          <li>
+            <a @click="logOut()" style="cursor: pointer"
+              ><span class="glyphicon glyphicon-user"></span> Your Account: {{ userEmail }}</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="basic-layout">
     <div class="layout-root">
       <router-view></router-view>
     </div>
@@ -103,5 +116,14 @@ watch(loginSuccess, (newValue) => {
 }
 .icon-account {
   display: inline;
+}
+
+.navbar {
+  font-size: medium;
+  display: block;
+  margin: 0 0 10px 0;
+}
+.navbar-nav {
+  margin-top: 20px;
 }
 </style>

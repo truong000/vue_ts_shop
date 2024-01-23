@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import router from '@/router'
 import { useUserStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
@@ -66,7 +65,7 @@ function handleSubmit() {
 watch(loginSuccess, (newValue) => {
   if (newValue) {
     toast.success('Login successful!')
-    router.push({name: 'home'})
+    router.push({ name: 'home' })
   }
 })
 
@@ -76,14 +75,13 @@ watch(loginFail, (newValue) => {
     // router.push({name: 'home'})
   }
 })
-
 </script>
 
 <template>
   <body>
     <div class="main">
       <h1>GeeksforGeeks</h1>
-      <h3>Enter your login credentials</h3>      
+      <h3>Enter your login credentials</h3>
       <form @submit.prevent="handleSubmit">
         <label for="email"> Email: </label>
         <input
@@ -113,12 +111,11 @@ watch(loginFail, (newValue) => {
       <p>
         Not registered?
         <RouterLink to="/Register">Create an account</RouterLink>
-        <a style="cursor: pointer;"> Create an account </a>
       </p>
     </div>
   </body>
 </template>
 
-<style>
+<style scoped>
 @import './styles.scss';
 </style>
